@@ -6,7 +6,7 @@ import torch
 from torch.autograd import Variable
 import numpy as np
 from models import G
-from my_util import is_image_file, load_img, save_img
+from util import is_image_file, load_img, save_img
 
 # Testing settings
 parser = argparse.ArgumentParser(description='pix2pix-PyTorch-implementation')
