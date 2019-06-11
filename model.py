@@ -1,3 +1,7 @@
+# Written by: Vivek Kumar Singh
+# Date: 25th May 2019
+# Affilation: Universitat Rovira I Virgili, Spain
+#=======================================
 from __future__ import print_function
 from collections import OrderedDict
 import torch
