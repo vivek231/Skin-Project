@@ -14,8 +14,8 @@ import torch.backends.cudnn as cudnn
 from loss import EPE
 
 # Training settings
-parser = argparse.ArgumentParser(description='pix2pix-PyTorch-implementation')
-parser.add_argument('--dataset', required=True, help='facades')
+parser = argparse.ArgumentParser(description='FCANet-PyTorch-implementation')
+parser.add_argument('--dataset', required=True, help='skin')
 parser.add_argument('--batchSize', type=int, default=2, help='training batch size')
 parser.add_argument('--testBatchSize', type=int, default=2, help='testing batch size')
 parser.add_argument('--nEpochs', type=int, default=200, help='number of epochs to train for')
