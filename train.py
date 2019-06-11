@@ -8,13 +8,13 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
-from models import G, D, weights_init
+from model import G,D
 from data import get_training_set, get_test_set
 import torch.backends.cudnn as cudnn
 from loss import EPE
 
 # Training settings
-parser = argparse.ArgumentParser(description='FCA-Net implementation')
+parser = argparse.ArgumentParser(description='pix2pix-PyTorch-implementation')
 parser.add_argument('--dataset', required=True, help='facades')
 parser.add_argument('--batchSize', type=int, default=2, help='training batch size')
 parser.add_argument('--testBatchSize', type=int, default=2, help='testing batch size')
@@ -53,16 +53,14 @@ print('===> Building model')
 netG = G(opt.input_nc, opt.output_nc, opt.ngf)
 pytorch_total_params = sum(p.numel() for p in netG.parameters() if p.requires_grad)
 print ("\nTrainable parameters", pytorch_total_params)
-#netG.apply(weights_init)
 netD = D(opt.input_nc, opt.output_nc, opt.ndf)
-#netD.apply(weights_init)
 
 criterion = nn.BCELoss()
 criterion_l1 = nn.L1Loss()
 criterion_mse = nn.MSELoss()
 
-real_A = torch.FloatTensor(opt.batchSize, opt.input_nc, 64, 64)
-real_B = torch.FloatTensor(opt.batchSize, opt.output_nc, 64, 64)
+real_A = torch.FloatTensor(opt.batchSize, opt.input_nc, 128, 128)
+real_B = torch.FloatTensor(opt.batchSize, opt.output_nc, 128, 128)
 label = torch.FloatTensor(opt.batchSize)
 real_label = 1
 fake_label = 0
