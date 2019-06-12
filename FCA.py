@@ -9,7 +9,6 @@ from torch.nn import Module, Sequential, Conv2d, ReLU,AdaptiveMaxPool2d, Adaptiv
 NLLLoss, BCELoss, CrossEntropyLoss, AvgPool2d, MaxPool2d, Parameter, Linear, Sigmoid, Softmax, Dropout, Embedding
 from collections import OrderedDict
 
-
 class CAM_Module(Module):
     """ Channel attention module"""
     def __init__(self, in_dim):
@@ -25,7 +24,6 @@ class CAM_Module(Module):
                 out : attention value + input feature
                 attention: B X C X C
         """
-        
         m_batchsize, C, height, width = x.size()
         proj_query = x.view(m_batchsize, C, -1)
         proj_key = x.view(m_batchsize, C, -1).permute(0, 2, 1)
@@ -41,7 +39,6 @@ class CAM_Module(Module):
 class non_bottleneck_1d (nn.Module):
     def __init__(self, chann, dropprob, dilated):        
         super().__init__()
-
         self.conv3x1_1 = nn.Conv2d(chann, chann, (3, 1), stride=1, padding=(1,0), bias=True)
         self.conv1x3_1 = nn.Conv2d(chann, chann, (1,3), stride=1, padding=(0,1), bias=True)
         self.bn1 = nn.BatchNorm2d(chann, eps=1e-03)
