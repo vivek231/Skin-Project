@@ -28,7 +28,6 @@ def load_img(filepath):
     img = preprocess_img(img)
     return img, shape
 
-
 def save_img(img, filename, shape):
     
     img = deprocess_img(img)
@@ -51,26 +50,20 @@ def preprocess_img(img):
     max = img.max().float()
     img = torch.FloatTensor(img.size()).copy_(img)
     img.add_(-min).mul_(1.0 / (max - min))
-
     # RGB to BGR
     idx = torch.LongTensor([2, 1, 0])
     img = torch.index_select(img, 0, idx)
-
     # [0,1] to [-1,1]
     img = img.mul_(2).add_(-1)
-
     # check that input is in expected range
     assert img.max() <= 1, 'badly scaled inputs'
     assert img.min() >= -1, "badly scaled inputs"
-
     return img
 
 def deprocess_img(img):
     # BGR to RGB
     idx = torch.LongTensor([2, 1, 0])
     img = torch.index_select(img, 0, idx)
-
     # [-1,1] to [0,1]
     img = img.add_(1).div_(2)
-
     return img
