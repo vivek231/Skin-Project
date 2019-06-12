@@ -1,7 +1,6 @@
-# Written by: Vivek Kumar Singh
-# Date: 25th May 2019
-# Affilation: Universitat Rovira I Virgili, Spain
-#=======================================
+# Code written and maintained by Vivek Kumar Singh.
+# Universitat Rovira I Virgili, Tarragona Spain
+# Date: 01/June/2019
 from __future__ import print_function
 from collections import OrderedDict
 import torch
@@ -44,10 +43,10 @@ class G(nn.Module):
         self.dconv1 = nn.ConvTranspose2d(ngf * 8, ngf * 8, 4, 2, 1)
         self.dconv2 = nn.ConvTranspose2d(ngf * 8 * 2, ngf * 8, 4, 2, 1)
         self.dconv3 = nn.ConvTranspose2d(ngf * 8 * 2, ngf * 8, 4, 2, 1)
-        self.dconv4 = nn.ConvTranspose2d(ngf * 8 * 2, ngf * 8, 4, 2, 1)
-        self.dconv5 = nn.ConvTranspose2d(ngf * 6 * 2, ngf * 4, 4, 2, 1)
-        self.dconv6 = nn.ConvTranspose2d(ngf * 3 * 2, ngf * 2, 4, 2, 1)
-        self.dconv7 = nn.ConvTranspose2d(ngf * 3, output_nc, 4, 2, 1)
+        self.dconv4 = nn.ConvTranspose2d(ngf * 8 * 2, ngf * 4, 4, 2, 1)
+        self.dconv5 = nn.ConvTranspose2d(ngf * 4 * 2, ngf * 2 , 4, 2, 1)
+        self.dconv6 = nn.ConvTranspose2d(ngf*4, ngf, 4, 2, 1)
+        self.dconv7 = nn.ConvTranspose2d(ngf*2, output_nc, 4, 2, 1)
 
         self.batch_norm = nn.BatchNorm2d(ngf)
         self.batch_norm2 = nn.BatchNorm2d(ngf * 2)
@@ -104,11 +103,11 @@ class G(nn.Module):
         d2 = torch.cat((d2_, e5), 1)
         d3_ = self.dropout(self.batch_norm8(self.dconv3(self.relu(d2))))
         d3 = torch.cat((d3_, e4), 1)
-        d4_ = self.batch_norm8(self.dconv4(self.relu(d3)))
+        d4_ = self.batch_norm4(self.dconv4(self.relu(d3)))
         d4 = torch.cat((d4_, e3), 1)
-        d5_ = self.batch_norm4(self.dconv5(self.relu(d4)))
+        d5_ = self.batch_norm2(self.dconv5(self.relu(d4)))
         d5 = torch.cat((d5_, e2), 1)
-        d6_ = self.batch_norm2(self.dconv6(self.relu(d5)))
+        d6_ = self.batch_norm(self.dconv6(self.relu(d5)))
         d6 = torch.cat((d6_, e1), 1)
         d7 = self.dconv7(self.relu(d6))
         output = self.tanh(d7)
