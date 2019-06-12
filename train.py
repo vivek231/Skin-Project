@@ -2,7 +2,6 @@ from __future__ import print_function
 import argparse
 import os
 from math import log10
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,7 +12,7 @@ from data import get_training_set, get_test_set
 import torch.backends.cudnn as cudnn
 from loss import EPE
 
-# Training settings
+# ===========================Training settings=========================
 parser = argparse.ArgumentParser(description='FCANet-PyTorch-implementation')
 parser.add_argument('--dataset', required=True, help='skin')
 parser.add_argument('--batchSize', type=int, default=2, help='training batch size')
@@ -35,30 +34,28 @@ print(opt)
 
 if opt.cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
-
 cudnn.benchmark = True
-
 torch.manual_seed(opt.seed)
 if opt.cuda:
     torch.cuda.manual_seed(opt.seed)
-
+#=============== Load the images from the folder==============
 print('===> Loading datasets')
 root_path = "dataset/"
 train_set = get_training_set(root_path + opt.dataset)
 test_set = get_test_set(root_path + opt.dataset)
 training_data_loader = DataLoader(dataset=train_set, num_workers=opt.threads, batch_size=opt.batchSize, shuffle=True)
 testing_data_loader = DataLoader(dataset=test_set, num_workers=opt.threads, batch_size=opt.testBatchSize, shuffle=False)
-
+# ======= Load the Generator and Discriminator =============== 
 print('===> Building model')
 netG = G(opt.input_nc, opt.output_nc, opt.ngf)
 pytorch_total_params = sum(p.numel() for p in netG.parameters() if p.requires_grad)
 print ("\nTrainable parameters", pytorch_total_params)
 netD = D(opt.input_nc, opt.output_nc, opt.ndf)
-
+#========Loss Function==========
 criterion = nn.BCELoss()
 criterion_l1 = nn.L1Loss()
 criterion_mse = nn.MSELoss()
-
+#================================
 real_A = torch.FloatTensor(opt.batchSize, opt.input_nc, 128, 128)
 real_B = torch.FloatTensor(opt.batchSize, opt.output_nc, 128, 128)
 label = torch.FloatTensor(opt.batchSize)
@@ -75,15 +72,13 @@ if opt.cuda:
     real_B = real_B.cuda()
     label = label.cuda()
 
-
 real_A = Variable(real_A)
 real_B = Variable(real_B)
 label = Variable(label)
 
-# setup optimizer
+# ==========setup optimizer===============
 optimizerD = optim.Adam(netD.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
-
 
 def train(epoch):
     for iteration, batch in enumerate(training_data_loader, 1):
@@ -110,7 +105,6 @@ def train(epoch):
         err_d_fake = criterion(output, label)
         err_d_fake.backward()
         d_x_gx = output.data.mean()
-
         err_d = (err_d_real + err_d_fake) / 2.0
         optimizerD.step()
 
@@ -129,7 +123,6 @@ def train(epoch):
         print("===> Epoch[{}]({}/{}): Loss_D: {:.4f} Loss_G: {:.4f} D(x): {:.4f} D(G(z)): {:.4f}/{:.4f}".format(
             epoch, iteration, len(training_data_loader), err_d.data[0], err_g.data[0], d_x_y, d_x_gx, d_x_gx_2))
 
-
 def test():
     avg_psnr = 0
     for batch in testing_data_loader:
@@ -144,7 +137,7 @@ def test():
         avg_psnr += psnr
     print("===> Avg. PSNR: {:.4f} dB".format(avg_psnr / len(testing_data_loader)))
 
-
+# ===========Save the checkpoints========
 def checkpoint(epoch):
     if not os.path.exists("checkpoint"):
         os.mkdir("checkpoint")
