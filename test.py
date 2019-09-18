@@ -9,7 +9,7 @@ from models import G
 from util import is_image_file, load_img, save_img
 
 # Testing settings
-parser = argparse.ArgumentParser(description='Skin lesion segmentation')
+parser = argparse.ArgumentParser(description='FCANet-PyTorch-implementation')
 parser.add_argument('--dataset', required=True, help='skin')
 parser.add_argument('--model', type=str, required=True, help='model file to use')
 parser.add_argument('--input_nc', type=int, default=3, help='input image channels')
