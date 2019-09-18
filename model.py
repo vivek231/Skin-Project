@@ -8,23 +8,23 @@ import torch.nn as nn
 import cv2
 import numpy as np
 import torch.nn.functional as F
-from FCA import FCANet, CAM_Module, non_bottleneck_1d
+from FCA import FCANet
 
 # For input size input_nc x 128 x 128
 class G(nn.Module):
     def __init__(self, input_nc, output_nc, ngf):
         super(G, self).__init__()
-        self.size1=nn.AvgPool2d(1, stride=8)
-        self.size3=nn.AvgPool2d(1, stride=4)
-        self.size4=nn.AvgPool2d(1, stride=2)
-        self.convinput= nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
+        self.size1 = nn.AvgPool2d(1, stride=8)
+        self.size3 = nn.AvgPool2d(1, stride=4)
+        self.size4 = nn.AvgPool2d(1, stride=2)
+        self.convinput = nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
         self.factor_in=FCANet(ngf,ngf)
         self.conva=nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
         self.factor_a= FCANet(ngf,ngf)
+        self.convb=nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
+        self.factor_b= FCANet(ngf,ngf)
         self.convc=nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
-        self.factor_c= FCANet(ngf,ngf)
-        self.convd=nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
-        self.factor_d=FCANet(ngf,ngf)
+        self.factor_c=FCANet(ngf,ngf)
 
         self.conv1 = nn.Conv2d(ngf, ngf, 4, 2, 1)
         self.conv2 = nn.Conv2d(ngf, ngf * 2, 4, 2, 1)
@@ -67,14 +67,14 @@ class G(nn.Module):
         a = self.conva(a) 
         a = self.factor_a(a)
         a=nn.functional.interpolate(a, size=128, mode='bilinear', align_corners=True)    
+        b = self.convb(b)
+        b = self.factor_b(b)
+        b=nn.functional.interpolate(b, size=128, mode='bilinear', align_corners=True)    
         c = self.convc(c)
         c = self.factor_c(c)
-        c=nn.functional.interpolate(c, size=128, mode='bilinear', align_corners=True)    
-        d = self.convd(d)
-        d = self.factor_d(d)
-        d=nn.functional.interpolate(d, size=128, mode='bilinear', align_corners=True)
-# ================ Aggregation of all the multiscale features============
-        x=(input+a+c+d)
+        c=nn.functional.interpolate(c, size=128, mode='bilinear', align_corners=True)
+# ================ Addition of all the multiscale features============
+        x=(input+a+b+c)
         e1 = self.conv1(x)
         e2 = self.batch_norm2(self.conv2(self.leaky_relu(e1)))
         e2 = self.c2(e2)
@@ -90,10 +90,6 @@ class G(nn.Module):
         e7 = self.c7(e7)
         print ("================================")
 
-        # img=e3[0,:3,:,:].cpu().data.numpy()
-        # img=np.transpose(img,(1,2,0))
-        # cv2.imshow('e3',img)
-        # cv2.waitKey(0)
 
         # Decoder
 
@@ -123,10 +119,10 @@ class D(nn.Module):
         self.factor_in = FCANet(ndf,ndf)
         self.conva=nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
         self.factor_a = FCANet(ndf,ndf)
+        self.convb=nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
+        self.factor_b = FCANet(ndf,ndf)
         self.convc=nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
         self.factor_c = FCANet(ndf,ndf)
-        self.convd=nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
-        self.factor_d = FCANet(ndf,ndf)
         self.conv1 = nn.Conv2d(ndf, ndf, 4, 2, 1)
         self.d1    = FCANet(ndf,ndf)
         self.conv2 = nn.Conv2d(ndf, 1, 4, 2, 1)     
@@ -146,15 +142,15 @@ class D(nn.Module):
         input = self.factor_in(input)
         a = self.conva(a) 
         a = self.factor_a(a)
-        a=nn.functional.interpolate(a, size=128, mode='bilinear', align_corners=True)    
-        c = self.convc(c)
-        c = self.factor_c(c)
-        c=nn.functional.interpolate(c, size=128, mode='bilinear', align_corners=True)    
-        d = self.convd(d)
-        d = self.factor_d(d)
-        d=nn.functional.interpolate(d, size=128, mode='bilinear', align_corners=True)
-#  ==================  Aggregation of all scales features ===================
-        x = (input+a+c+d)
+        a = nn.functional.interpolate(a, size=128, mode='bilinear', align_corners=True)    
+        b = self.convc(b)
+        b = self.factor_c(b)
+        b = nn.functional.interpolate(b, size=128, mode='bilinear', align_corners=True)    
+        c = self.convd(c)
+        c = self.factor_d(c)
+        c = nn.functional.interpolate(c, size=128, mode='bilinear', align_corners=True)
+#  ==================  Addition of all scales features ===================
+        x = (input+a+b+c)
         h1 = self.conv1(x)
         h1 = self.d1(h1)
         h2 = self.conv2(self.leaky_relu(h1))
