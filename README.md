@@ -4,6 +4,8 @@ This repository contains an implementation of the following paper:
 
 # FCA-Net
 
+![skin_new_model](https://user-images.githubusercontent.com/18607766/59305103-d7357300-8c99-11e9-923a-9c09ef49a210.png)
+
 ## Prerequisites
 
 + Linux
@@ -44,10 +46,3 @@ This repository contains an implementation of the following paper:
   number={},
   pages={130552-130565},
   doi={10.1109/ACCESS.2019.2940418}}
-
-
-**Architecture of the Proposed Adversarial Network**
-
-![skin_new_model](https://user-images.githubusercontent.com/18607766/59305103-d7357300-8c99-11e9-923a-9c09ef49a210.png)
-
-
