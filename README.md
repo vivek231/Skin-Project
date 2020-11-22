@@ -2,7 +2,34 @@ This repository contains an implementation of the following paper:
 
 **V. K. Singh et al., "FCA-Net: Adversarial Learning for Skin Lesion Segmentation Based on Multi-Scale Features and Factorized Channel Attention," in IEEE Access, vol. 7, pp. 130552-130565, 2019, doi: 10.1109/ACCESS.2019.2940418.**
 
-**Abstract:** Skin lesion segmentation in dermoscopic images is still a challenge due to the low contrast and fuzzy boundaries of lesions. Moreover, lesions have high similarity with the healthy regions in terms of appearance. In this paper, we propose an accurate skin lesion segmentation model based on a modified conditional generative adversarial network (cGAN). We introduce a new block in the encoder of cGAN called factorized channel attention (FCA), which exploits both channel attention mechanism and residual 1-D kernel factorized convolution. The channel attention mechanism increases the discriminability between the lesion and non-lesion features by taking feature channel interdependencies into account. The 1-D factorized kernel block provides extra convolutions layers with a minimum number of parameters to reduce the computations of the higher-order convolutions. Besides, we use a multi-scale input strategy to encourage the development of filters which are scale-variant (i.e., constructing a scale-invariant representation). The proposed model is assessed on three skin challenge datasets: ISBI2016, ISBI2017, and ISIC2018. It yields competitive results when compared to several state-of-the-art methods in terms of Dice coefficient and intersection over union (IoU) score.
+# FCA-Net
+
+## Prerequisites
+
++ Linux
++ Python with numpy
++ NVIDIA GPU + CUDA 8.0 + CuDNNv5.1
++ pytorch 4.0/4.1
++ torchvision
+
+## Getting Started
+
+
+**+ Clone this repo:**
+
+    cd Skin-Project
+
+**+ Get dataset**
+
+    unzip dataset/images.zip
+
+**+ Train the model:**
+
+    python train.py --dataset images --nEpochs 200 --cuda
+
+**+ Test the model:**
+
+    python test.py --dataset images --model checkpoint/images/netG_model_epoch_100.pth --cuda
 
 **Proposed Factorized Channel Attention (FCA) Block:**
 
