@@ -33,9 +33,7 @@ This repository contains an implementation of the following paper:
 
     python test.py --dataset skin --model checkpoint/skin/netG_model_epoch_100.pth --cuda
 
-## Citation:##
-
-+ If you use this code or pre-trained models, please cite the following:
+**+ Citation:**
 
 @ARTICLE{8832175,
   author={V. K. {Singh} and M. {Abdel-Nasser} and H. A. {Rashwan} and F. {Akram} and N. {Pandey} and A. {Lalande} and B. {Presles} and S. {Romani} and D. {Puig}},
