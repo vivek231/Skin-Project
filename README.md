@@ -32,16 +32,18 @@ This repository contains an implementation of the following paper:
     python test.py --dataset skin --model checkpoint/skin/netG_model_epoch_100.pth --cuda
 
 **+ Citation:**
-    + If you use this code or pre-trained models, please cite the following:
-    @ARTICLE{8832175,
-      author={V. K. {Singh} and M. {Abdel-Nasser} and H. A. {Rashwan} and F. {Akram} and N. {Pandey} and A. {Lalande} and B. {Presles} and S. {Romani} and D. {Puig}},
-      journal={IEEE Access}, 
-      title={FCA-Net: Adversarial Learning for Skin Lesion Segmentation Based on Multi-Scale Features and Factorized Channel Attention}, 
-      year={2019},
-      volume={7},
-      number={},
-      pages={130552-130565},
-      doi={10.1109/ACCESS.2019.2940418}}
+
++ If you use this code or pre-trained models, please cite the following:
+
+@ARTICLE{8832175,
+  author={V. K. {Singh} and M. {Abdel-Nasser} and H. A. {Rashwan} and F. {Akram} and N. {Pandey} and A. {Lalande} and B. {Presles} and S. {Romani} and D. {Puig}},
+  journal={IEEE Access}, 
+  title={FCA-Net: Adversarial Learning for Skin Lesion Segmentation Based on Multi-Scale Features and Factorized Channel Attention}, 
+  year={2019},
+  volume={7},
+  number={},
+  pages={130552-130565},
+  doi={10.1109/ACCESS.2019.2940418}}
 
 **Proposed Factorized Channel Attention (FCA) Block:**
 
