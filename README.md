@@ -21,15 +21,15 @@ This repository contains an implementation of the following paper:
 
 **+ Get dataset**
 
-    unzip dataset/images.zip
+    unzip dataset/skin.zip
 
 **+ Train the model:**
 
-    python train.py --dataset images --nEpochs 200 --cuda
+    python train.py --dataset skin --nEpochs 200 --cuda
 
 **+ Test the model:**
 
-    python test.py --dataset images --model checkpoint/images/netG_model_epoch_100.pth --cuda
+    python test.py --dataset skin --model checkpoint/skin/netG_model_epoch_100.pth --cuda
 
 **Proposed Factorized Channel Attention (FCA) Block:**
 
