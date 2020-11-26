@@ -1,5 +1,5 @@
 This repository contains an implementation of the following paper:
-:point_down: Article:
+:point_down: :
 
 <p align="center">
   <img src="/static/screenshot.png" height="480px" alt="">
