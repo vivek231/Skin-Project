@@ -15,8 +15,8 @@ class G(nn.Module):
     def __init__(self, input_nc, output_nc, ngf):
         super(G, self).__init__()
         self.size1 = nn.AvgPool2d(1, stride=8)
-        self.size3 = nn.AvgPool2d(1, stride=4)
-        self.size4 = nn.AvgPool2d(1, stride=2)
+        self.size2 = nn.AvgPool2d(1, stride=4)
+        self.size3 = nn.AvgPool2d(1, stride=2)
         self.convinput = nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
         self.factor_in = FCANet(ngf,ngf)
         self.conva = nn.Conv2d(3, ngf, kernel_size=3,padding=1, bias=False)
@@ -59,9 +59,9 @@ class G(nn.Module):
 
     def forward(self, input):
 
-        a=self.size1(input)
-        c=self.size3(input)
-        d=self.size4(input)
+        a = self.size1(input)
+        b = self.size2(input)
+        c = self.size3(input)
         input = self.convinput(input)
         input = self.factor_in(input)
         a = self.conva(a) 
@@ -112,10 +112,10 @@ class G(nn.Module):
 class D(nn.Module):
     def __init__(self, input_nc, output_nc, ndf):
         super(D, self).__init__()
-        self.s1=nn.AvgPool2d(1, stride=8)
-        self.s3=nn.AvgPool2d(1, stride=4)
-        self.s4=nn.AvgPool2d(1, stride=2)
-        self.convinput= nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
+        self.s1 = nn.AvgPool2d(1, stride=8)
+        self.s2 = nn.AvgPool2d(1, stride=4)
+        self.s3 = nn.AvgPool2d(1, stride=2)
+        self.convinput = nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
         self.factor_in = FCANet(ndf,ndf)
         self.conva=nn.Conv2d(input_nc + output_nc, ndf, kernel_size=3,padding=1, bias=False)
         self.factor_a = FCANet(ndf,ndf)
@@ -135,9 +135,9 @@ class D(nn.Module):
 
     def forward(self, input):
 
-        a=self.s1(input)
-        c=self.s3(input)
-        d=self.s4(input)
+        a = self.s1(input)
+        b = self.s2(input)
+        c = self.s3(input)
         input = self.convinput(input)
         input = self.factor_in(input)
         a = self.conva(a) 
