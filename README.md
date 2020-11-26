@@ -1,4 +1,9 @@
 This repository contains an implementation of the following paper:
+:point_down: Article:
+
+<p align="center">
+  <img src="/static/screenshot.png" height="480px" alt="">
+</p>
 
 **V. K. Singh et al., "FCA-Net: Adversarial Learning for Skin Lesion Segmentation Based on Multi-Scale Features and Factorized Channel Attention," in IEEE Access, vol. 7, pp. 130552-130565, 2019, doi: 10.1109/ACCESS.2019.2940418.**
 
