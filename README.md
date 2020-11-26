@@ -12,7 +12,7 @@ This repository contains an implementation of the following paper:
 ![skin_new_model](https://user-images.githubusercontent.com/18607766/59305103-d7357300-8c99-11e9-923a-9c09ef49a210.png)
 
 ## Prerequisites
-
+[![](https://img.shields.io/badge/python-3.6%2B-green.svg)]()
 + Linux
 + Python with numpy
 + NVIDIA GPU + CUDA 8.0 + CuDNNv5.1
