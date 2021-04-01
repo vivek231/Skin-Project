@@ -38,8 +38,9 @@ This repository contains an implementation of the following paper:
 
     python test.py --dataset skin --model checkpoint/skin/netG_model_epoch_100.pth --cuda
 
-**+ Citation:**
-
+## Citation:
+If you use the code in your work, please use the following citation:
+```
 @ARTICLE{8832175,
   author={V. K. {Singh} and M. {Abdel-Nasser} and H. A. {Rashwan} and F. {Akram} and N. {Pandey} and A. {Lalande} and B. {Presles} and S. {Romani} and D. {Puig}},
   journal={IEEE Access}, 
@@ -49,3 +50,4 @@ This repository contains an implementation of the following paper:
   number={},
   pages={130552-130565},
   doi={10.1109/ACCESS.2019.2940418}}
+```
